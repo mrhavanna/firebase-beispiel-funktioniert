@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => FirebaseFirestore.instance.collection('testing').add(
+          onPressed: () => FirebaseFirestore.instance.collection('testing2').add(
             {
               'timestamp': Timestamp.fromDate(
                 DateTime.now(),
@@ -78,17 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
           child: const Icon(Icons.add),
         ) ,
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('testing').snapshots(),
+          stream: FirebaseFirestore.instance.collection('testing2').snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) return const SizedBox.shrink();
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (BuildContext context, int index) {
-                final docData = snapshot.data!.docs[index].data();
-                //final dateTime = (docData['Timestamp'] as Timestamp).toDate();
+                // final docData = snapshot.data!.docs[index].data();
+                final docData = snapshot.data!.docs[index]['timestamp'];
+//                final dateTime = (docData['Timestamp'] as Timestamp).toDate();
+                final dateTime = (docData as Timestamp).toDate();
 
-                final dateTime = DateTime.now();
+                // final dateTime = DateTime.now();
                 return ListTile(
                   title: Text(dateTime.toString())
                 );
